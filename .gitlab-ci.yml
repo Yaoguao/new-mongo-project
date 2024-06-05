@@ -1,0 +1,36 @@
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  SSH_PRIVATE_KEY: $CI_PRIVATE_KEY
+  SSH_KNOWN_HOSTS: $CI_KNOWN_HOSTS
+
+# Определение этапов и задач
+stages:
+  - build
+  - deploy
+
+# Определение задачи сборки
+maven_build:
+  stage: build
+  image: maven:latest
+  script:
+    - mvn $MAVEN_CLI_OPTS $MAVEN_OPTS clean package
+
+# Определение задачи развертывания
+deploy:
+  stage: deploy
+  image: alpine:latest
+  script:
+    # Установка SSH
+    - apk add --no-cache openssh-client
+    # Добавление ключа SSH и известных хостов для доступа к серверу
+    - echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
+    - chmod 600 /root/.ssh/id_rsa
+    - echo "$SSH_KNOWN_HOSTS" > /root/.ssh/known_hosts
+    # Копирование JAR-файла на сервер и запуск приложения
+    - scp target/new-mongo-project-0.0.1-SNAPSHOT.jar user@remote_server:/path/to/destination
+    - ssh user@remote_server "java -jar /path/to/destination/new-mongo-project-0.0.1-SNAPSHOT.jar"
+  environment:
+    name: production
+  only:
+    - master

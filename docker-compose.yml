@@ -1,23 +1,23 @@
 version: '3.7'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8080"
-    depends_on:
-      - mongo
-    environment:
-      - MONGODB_URI=mongodb://mongo:27017/TestDiary
-
   mongo:
     image: mongo:latest
+    container_name: my_mongo_container
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - mongo-data:/data/db
+
+  java_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_java_app_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
 
 volumes:
-  mongodb_data:
+  mongo-data:

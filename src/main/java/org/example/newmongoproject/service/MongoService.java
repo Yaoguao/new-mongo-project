@@ -25,7 +25,7 @@ import java.util.Set;
 public class MongoService {
 
     public MongoTemplate mongoTemplate(String username, String password) {
-        String connection = "mongodb://" + username + ":" + password + "@localhost:27017/TestDiary";
+        String connection = "mongodb://localhost:27017/TestDiary";
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connection))
                 .build();
@@ -37,4 +37,18 @@ public class MongoService {
         );
         return new MongoTemplate(mongoClient, "TestDiary");
     }
+
+//    public MongoTemplate mongoTemplate(String username, String password) {
+//        String connection = "mongodb://" + username + ":" + password + "@localhost:27017/TestDiary";
+//        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+//                .applyConnectionString(new ConnectionString(connection))
+//                .build();
+//
+//        MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+//
+//        log.info(
+//                mongoClient + ""
+//        );
+//        return new MongoTemplate(mongoClient, "TestDiary");
+//    }
 }
