@@ -24,8 +24,8 @@ import java.util.Set;
 @Slf4j
 public class MongoService {
 
-    public MongoTemplate mongoTemplate(String username, String password) {
-        String connection = "mongodb://localhost:27017/TestDiary";
+    public MongoTemplate mongoTemplate() {
+        String connection = "mongodb://mongo:27017/TestDiary";
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connection))
                 .build();

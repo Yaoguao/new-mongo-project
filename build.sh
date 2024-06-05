@@ -1,8 +1,4 @@
 
-docker-compose down
-docker-compose build
-docker-compose up -d
+COMPOSE_PATH="./Docker"
 
-sleep 20
-
-docker exec -it $(docker ps -q -f "name=my_mongo_container") /bin/bash -c "./init.sh"
+docker-compose -f "$COMPOSE_PATH/docker-compose.yml" up -d
