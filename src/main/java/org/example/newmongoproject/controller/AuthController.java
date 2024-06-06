@@ -35,7 +35,7 @@ public class AuthController {
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
 
-        MongoTemplate mongoTemplate = mongoService.mongoTemplate(username, password);
+        MongoTemplate mongoTemplate = mongoService.mongoTemplate();
         System.out.println(mongoTemplate);
         if (mongoTemplate == null) {
             return ResponseEntity.status(401).body("No auth");
